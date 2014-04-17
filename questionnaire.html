@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width">
+		<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js?ver=3.6.1'></script>
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootswatch/3.0.0/united/bootstrap.min.css">
+		<style>
+		html, body, form
+		{
+			margin:0;
+			padding: 0;
+			height:100%;
+			width:100%;
+		}
+		
+		
+		.page
+		{
+			display:none;
+			height:100%;
+			width:100%;
+			background-color: rgb(252, 252, 204);
+			text-align:center;
+			font:6em "Book Antiqua", Palatino, "Palatino Linotype", "Palatino LT STD", Georgia, serif;
+		}
+		
+		.page p
+		{
+			max-width:800px;
+			text-align:center;
+			margin:0 auto;
+		}
+		
+		.page small
+		{
+			font-size:30%;
+		}
+		
+		.nexte
+		{
+			padding:30px 110px;
+		}
+		.nexte-holder
+		{
+			position:absolute;
+			bottom:40px;
+			width:100%;
+			text-align:center;
+		}
+
+		
+		.page button
+		{
+			padding:10px 20px;
+			font-size:20px;
+		}
+
+		
+		.circular {
+			margin: 0 auto;
+			width: 300px;
+			height: 300px;
+			border-radius: 100px;
+			-webkit-border-radius: 100px;
+			-moz-border-radius: 100px;
+			background: url('http://habrastorage.org/storage3/f79/be9/3d9/f79be93d9138f12b47ea1a0071c2cc1c.jpg') no-repeat -130px -40px;
+		}
+
+		.circular img {
+			opacity: 0;
+			filter: alpha(opacity=0);
+			}
+		
+		</style>
+		<script>
+			var currentPage = 0;
+			
+			function SetButtonText(text)
+			{
+				$('#nextebtn').html(text);
+			}
+			
+			function showNextPage()
+			{
+				oldPage = currentPage;
+				currentPage++;
+				
+				if($('#page'+currentPage).length < 1)
+				{
+					currentPage = 1;
+					submitForm();
+				}
+					
+				showPage(oldPage, currentPage);
+			}
+			
+			function showPage(oldPage, newPage)
+			{
+				if($('#page'+oldPage).length > 0)
+					$('#page'+oldPage).hide();
+					
+				SetButtonText('Next');
+				
+				switch(newPage)
+				{
+					case 1:
+						$('#form')[0].reset();
+						SetButtonText('Next');
+						break;
+						
+					case 2:
+						SetButtonText("Cool");
+						break;
+						
+					case 5:
+						$('#fakeNum').html($('#howManyOtherGroupsYouVisit').val());
+						SetButtonText('I dont care, Next');
+						break;
+					
+				}
+				
+				if($('#page'+newPage).length > 0)
+					$('#page'+newPage).show();
+			}
+			
+			function submitForm()
+			{
+				var data = $('form').serialize();
+				jQuery.post('submit.php', data);
+			}
+			
+			function next()
+			{
+				showNextPage();
+			}
+				
+			
+			 $(document).ready(function(){
+				showNextPage();
+			 });
+			
+		</script>
+	</head>
+	
+	<body>
+			<form id="form">
+		<div class='page' id='page1'><p>
+		
+			Hi there,
+			<br/><br/>
+			Please help us make the meetups better, Give us some feedback and we will give you some fun
+		
+		</p></div>
+		<div class='page' id='page2'><p>
+		
+			How many times had you been on this group's meetup?
+			
+			<br/><br/>
+			
+			<button class="btn btn-large btn-info" type="button">1</button>
+			<button class="btn btn-large btn-info" type="button">2</button>
+			<button class="btn btn-large btn-info" type="button">3</button>
+			<button class="btn btn-large btn-info" type="button">4</button>
+			<button class="btn btn-large btn-info" type="button">5</button>
+			<button class="btn btn-large btn-info" type="button">6</button>
+			<button class="btn btn-large btn-info" type="button">7</button>
+			<button class="btn btn-large btn-info" type="button">8</button>
+			<button class="btn btn-large btn-info" type="button">9+</button>
+			
+			<input type='hidden' name='howManyTimesBeenHere' id='howManyTimesBeenHere' />
+			
+			<script type='text/javascript'>
+			
+				$('#page2 button').click(function(){
+					$('#howManyTimesBeenHere').val($(this).text());
+					next();
+				});
+			
+			</script>
+		
+		</p></div>
+		<div class='page' id='page3'><p>
+		Sweet, 
+		<br/>
+		
+		Thanks for sharing with us. Here is a funny picture for you<br/>
+		<div class="circular">
+			<img src="http://habrastorage.org/storage3/f79/be9/3d9/f79be93d9138f12b47ea1a0071c2cc1c.jpg" />
+		</div>
+		
+		
+		</p></div>
+		<div class='page' id='page4'><p>
+		
+			Are you member of other user groups? If so, how many:<br/>
+			
+			<button class="btn btn-large btn-info" type="button">0</button>
+			<button class="btn btn-large btn-info" type="button">1</button>
+			<button class="btn btn-large btn-info" type="button">2</button>
+			<button class="btn btn-large btn-info" type="button">3</button>
+			<button class="btn btn-large btn-info" type="button">4+</button>
+
+			
+			
+			<input type='hidden' name='howManyOtherGroupsYouVisit' id='howManyOtherGroupsYouVisit' />
+			
+			<script type='text/javascript'>
+			
+				$('#page4 button').click(function(){
+					$('#howManyOtherGroupsYouVisit').val($(this).text());
+					next();
+				});
+			
+			</script>
+			
+		
+		</p></div>
+		<div class='page' id='page5'><p>
+		
+		Cool, 
+		<br/>
+		<span id="fakeNum"></span> is also the number of hairs on a newborn rhino
+		<br/>
+		
+		
+		</p></div>
+		<div class='page' id='page6'><p>
+		
+		Have you ever convinced a friend or a colleague to join the meetup and he actually came ?
+		<br/><br/>
+			<button class="btn btn-large btn-info" type="button">Yes</button>
+			<button class="btn btn-large btn-info" type="button">No</button>
+			
+			<input type='hidden' name='braughtFriends' id='braughtFriends' />
+			
+			<script type='text/javascript'>
+			
+				$('#page6 button').click(function(){
+					$('#braughtFriends').val($(this).text());
+					next();
+				});
+			
+			</script>
+		
+		</p></div>
+		<div class='page' id='page7'><p>
+		
+			Well, is this picture about him? <br/>
+			
+			<img src="http://habrastorage.org/storage3/976/021/fef/976021fef335ec821e671f4f9ec2a6a3.jpg" />
+		
+		</p></div>
+		
+		<div class='page' id='page8'><p>
+			What brings you out of home to a meetup?<br/><br/>
+			<textarea name="whatBreengsYouHere"></textarea>
+		</p></div>
+		<div class='page' id='page9'><p>
+			Thanks <br/>
+			You can also try this technic: <br/>
+			<img src="http://funnypicturesplus.com/wp-content/uploads/2013/09/funny-iphone-battery.jpg" />
+		</p></div>
+		<div class='page' id='page10'><p>
+			
+			What are the top 2 things you like about this meetup?<br/><br/>
+			<small>it's anonymous</small>
+			<textarea name="topLike"></textarea>
+			
+		</p></div>
+		<div class='page' id='page11'><p>
+			Thanks. We will try to keep it there.
+		</p></div>
+		
+		<div class='page' id='page12'><p>
+			What are the top 2 things you recommend to improve?<br/><br/>
+			<small>it's still anonymous</small>
+			<textarea name="improve"></textarea>
+		</p></div>
+		
+		<div class='page' id='page13'><p>
+			Thanks. We will try to do as much as possible<br/>
+			<img src="http://31.media.tumblr.com/3eab3d7209b4a7fb16c8478e1e334187/tumblr_mru7nvi2Y91s0bl2co1_500.png" />
+		</p></div>
+		
+		
+		<div class='page' id='page14'><p>
+			Sweet <br/><br/> Thank you very much for participating. Click next and pass it on
+		</p></div>
+		
+		<div class='nexte-holder'>
+			<button class="btn btn-large btn-primary nexte" id="nextebtn" type="button" onclick="next()">Next</button>
+		</div>
+		</form>
+	</body>
+</html>
